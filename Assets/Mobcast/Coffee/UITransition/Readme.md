@@ -36,7 +36,12 @@ Transition system for uGUI.
     * 親子構造を設定すると、複数のUITransitionを一括操作できます
     * 設定をプリセットとして保存、編集ができます
     * コールバックを設定できます
-
+    * Advanced Option として、以下の項目を設定できます.  
+    ![image](https://user-images.githubusercontent.com/12690315/32935334-13e97c46-cbb3-11e7-899e-f370f7342333.png)
+        * 初期ステート
+        * 追加ディレイ
+        * 子に対する逐次ディレイとソート方法
+        * 親から渡されたのディレイ値を無効化
 
 
 
@@ -66,14 +71,22 @@ Transition system for uGUI.
 
 ## Release Notes
 
+### ver.1.1.0:
+* ![image](https://user-images.githubusercontent.com/12690315/32935334-13e97c46-cbb3-11e7-899e-f370f7342333.png)
+* Feature: Changing state on enable.
+* Feature: Delay children sequencial.
+    * Position X/Y
+    * Hierarchy
+    * Reversing
+
 ### ver.1.0.0:
-* Feature : UITransition
+* Feature: UITransition
     * Supports Show/Hide/Idle/Press/Click states.
     * Parent-child relations for bulk operation.
     * Editable preset.
     * Additional delaying on Show/Hide.
     * Ignore Time Scale.
-* Feature : UIAnimation
+* Feature: UIAnimation
     * Supports simple property tweening.
     * Absolute/Relative tween value.
     * Editable preset.

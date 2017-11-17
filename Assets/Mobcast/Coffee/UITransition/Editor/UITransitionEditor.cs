@@ -13,24 +13,26 @@ namespace Mobcast.Coffee.Transition
 	public class UITransitionEditor : UIAnimationEditor
 	{
 		const string kPrefsKeyExpandedTags = "UITransition_ExpandedTags";
-		static UIAnimationTag s_ExpandedTags;
+		static State s_ExpandedTags;
+		static bool s_ExpandedOption;
 
 		static readonly Dictionary<int,Color> s_BgColor = new Dictionary<int, Color>()
 		{
 			{ 0, new Color(1.0f, 1.0f, 1.0f) },
-			{ (int)UIAnimationTag.Show, new Color(1.0f, 0.8f, 0.8f) },
-			{ (int)UIAnimationTag.Idle, new Color(0.8f, 1.0f, 0.8f) },
-			{ (int)UIAnimationTag.Hide, new Color(0.8f, 0.8f, 1.0f) },
-//			{ (int)UIAnimationTag.Disable, new Color(1.0f, 1.0f, 0.8f) },
-			{ (int)UIAnimationTag.Press, new Color(1.0f, 0.8f, 1.0f) },
-			{ (int)UIAnimationTag.Click, new Color(0.8f, 1.0f, 1.0f) },
+			{ (int)State.Show, new Color(1.0f, 0.8f, 0.8f) },
+			{ (int)State.Idle, new Color(0.8f, 1.0f, 0.8f) },
+			{ (int)State.Hide, new Color(0.8f, 0.8f, 1.0f) },
+			{ (int)State.Press, new Color(1.0f, 0.8f, 1.0f) },
+			{ (int)State.Click, new Color(0.8f, 1.0f, 1.0f) },
 		};
 
 
 		//==== ▼ Monoコールバック ▼ ====
 		protected virtual void OnEnable()
 		{
-			s_ExpandedTags = (UIAnimationTag)EditorPrefs.GetInt("UITransition_ExpandedTags");
+			s_ExpandedTags = (State)EditorPrefs.GetInt("UITransition_ExpandedTags");
+			s_ExpandedOption = EditorPrefs.GetBool("UITransition_ExpandedOption");
+			(target as UITransition).OnTransformParentChanged();
 		}
 
 		/// <summary>
@@ -48,6 +50,41 @@ namespace Mobcast.Coffee.Transition
 			var spPreset = spTransitionData.FindPropertyRelative("m_Preset");
 			var tr = target as UITransition;
 
+
+
+
+			using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+			{
+
+				if (GUILayout.Toggle(s_ExpandedOption, "<b>Advanced Option</b>", "IN LABEL") != s_ExpandedOption)
+				{
+					s_ExpandedOption = !s_ExpandedOption;
+					EditorPrefs.SetBool("UITransition_ExpandedOption", s_ExpandedOption);
+				}
+
+				if (s_ExpandedOption)
+				{
+					using (new EditorGUI.DisabledGroupScope(tr.parent))
+					{
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_StateOnEnable"));
+					}
+
+					using (new EditorGUILayout.HorizontalScope())
+					{
+						GUILayout.Space(10);
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_ShowStateOption"), true);
+					}
+
+					using (new EditorGUILayout.HorizontalScope())
+					{
+						GUILayout.Space(10);
+						EditorGUILayout.PropertyField(serializedObject.FindProperty("m_HideStateOption"), true);
+					}
+				}
+			}
+
+			GUILayout.Space(10);
+			EditorGUILayout.LabelField("Transition Setting", EditorStyles.boldLabel);
 			DrawTransitionPreset(spTransitionData, tr);
 
 			using (new EditorGUI.DisabledGroupScope(spPreset.objectReferenceValue && !enableEdit))
@@ -63,6 +100,37 @@ namespace Mobcast.Coffee.Transition
 		}
 		//==== ▲ Monoコールバック ▲ ====
 
+
+		public static void DrawStateOption(SerializedProperty property)
+		{
+			float lw = EditorGUIUtility.labelWidth;
+			EditorGUIUtility.labelWidth = 70;
+//			var property = property.serializedObject.FindProperty(tag == State.Show ? "m_ShowStateOption" : "m_HideStateOption");
+
+//			using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+			{
+				EditorGUILayout.LabelField(property.displayName);
+				using (new EditorGUILayout.HorizontalScope())
+				{
+					GUILayout.Space(16);
+					EditorGUILayout.PropertyField(property.FindPropertyRelative("m_AddDelay"), GUILayout.Width(100));
+					var spIgnoreParent = property.FindPropertyRelative("m_IgnoreParent");
+					spIgnoreParent.boolValue = EditorGUILayout.ToggleLeft("Ignore Parent", spIgnoreParent.boolValue, GUILayout.Width(100));
+				}
+
+				using (new EditorGUILayout.HorizontalScope())
+				{
+					GUILayout.Space(16);
+					EditorGUILayout.PropertyField(property.FindPropertyRelative("m_ChildDelay"), GUILayout.Width(100));
+					EditorGUIUtility.labelWidth = 45;
+					EditorGUILayout.PropertyField(property.FindPropertyRelative("m_SortBy"));
+				}
+			}
+
+			EditorGUIUtility.labelWidth = lw;
+		}
+
+
 		public static void DrawTransitionPreset(SerializedProperty property, UITransition transition)
 		{
 			var spPreset = property.FindPropertyRelative("m_Preset");
@@ -72,10 +140,8 @@ namespace Mobcast.Coffee.Transition
 				var oldPreset = spPreset.objectReferenceValue as UITransitionPreset;
 				DrawAssetField<UITransitionPreset>(EditorGUILayout.GetControlRect(), null, spPreset, (asset, created) =>
 					{
-						Debug.Log(asset + ", " + created + ", " + oldPreset);
 						if (created)
 						{
-							Debug.Log("created");
 							var so = new SerializedObject(asset);
 							so.CopyFromSerializedProperty(property);
 							property.FindPropertyRelative("m_Preset").objectReferenceValue = null;
@@ -83,14 +149,12 @@ namespace Mobcast.Coffee.Transition
 						}
 						else if (oldPreset && !asset)
 						{
-							Debug.Log("To Null");
 							var so = new SerializedObject(oldPreset);
 							property.serializedObject.CopyFromSerializedProperty(so.FindProperty("m_TransitionData"));
 							property.serializedObject.ApplyModifiedProperties();
 						}
 						else if (asset)
 						{
-							Debug.Log("selected");
 							property.FindPropertyRelative("m_AnimationDatas").ClearArray();
 							property.serializedObject.ApplyModifiedProperties();
 						}
@@ -112,32 +176,32 @@ namespace Mobcast.Coffee.Transition
 				: property.FindPropertyRelative("m_AnimationDatas");
 
 			// Collect valid Tags. 
-			UIAnimationTag currentValidTags = 0;
+			State availableStates = 0;
 			for (int i = 0; i < spAnimationDatas.arraySize; i++)
-				currentValidTags += spAnimationDatas.GetArrayElementAtIndex(i).FindPropertyRelative("m_Tag").intValue;
+				availableStates += spAnimationDatas.GetArrayElementAtIndex(i).FindPropertyRelative("m_State").intValue;
 
 			for (int i = 0; i < spAnimationDatas.arraySize; i++)
 			{
-				if (spAnimationDatas.GetArrayElementAtIndex(i).FindPropertyRelative("m_Tag").intValue <= 0)
+				if (spAnimationDatas.GetArrayElementAtIndex(i).FindPropertyRelative("m_State").intValue <= 0)
 				{
 					spAnimationDatas.DeleteArrayElementAtIndex(i);
 				}
 			}
 
 			EditorGUI.BeginChangeCheck();
-			UIAnimationTag selectedTag = (UIAnimationTag)EditorGUILayout.EnumMaskField("Tag", currentValidTags);
+			State selectedTag = (State)EditorGUILayout.EnumMaskField("Available States", availableStates);
 			if (!EditorGUI.EndChangeCheck())
 				return;
 
-			foreach (UIAnimationTag t in Enum.GetValues(typeof(UIAnimationTag)))
+			foreach (State t in Enum.GetValues(typeof(State)))
 			{
 				//カテゴリ追加
-				if (0 == (currentValidTags & t) && 0 != (selectedTag & t))
+				if (0 == (availableStates & t) && 0 != (selectedTag & t))
 				{
 					int index = spAnimationDatas.arraySize;
 					for (int i = 0; i < spAnimationDatas.arraySize; i++)
 					{
-						if ((int)t < spAnimationDatas.GetArrayElementAtIndex(i).FindPropertyRelative("m_Tag").intValue)
+						if ((int)t < spAnimationDatas.GetArrayElementAtIndex(i).FindPropertyRelative("m_State").intValue)
 						{
 							index = i;
 							break;
@@ -146,14 +210,14 @@ namespace Mobcast.Coffee.Transition
 
 					spAnimationDatas.InsertArrayElementAtIndex(index);
 					var newData = spAnimationDatas.GetArrayElementAtIndex(index);
-					newData.FindPropertyRelative("m_Tag").intValue = (int)t;
+					newData.FindPropertyRelative("m_State").intValue = (int)t;
 				}
 				//カテゴリ削除
-				else if (0 != (currentValidTags & t) && 0 == (selectedTag & t))
+				else if (0 != (availableStates & t) && 0 == (selectedTag & t))
 				{
 					for (int i = 0; i < spAnimationDatas.arraySize; i++)
 					{
-						if (spAnimationDatas.GetArrayElementAtIndex(i).FindPropertyRelative("m_Tag").intValue == (int)t)
+						if (spAnimationDatas.GetArrayElementAtIndex(i).FindPropertyRelative("m_State").intValue == (int)t)
 							spAnimationDatas.DeleteArrayElementAtIndex(i);
 					}
 				}
@@ -174,9 +238,9 @@ namespace Mobcast.Coffee.Transition
 			for (int i = 0; i < spAnimationDatas.arraySize; i++)
 			{
 				var spAnimationData = spAnimationDatas.GetArrayElementAtIndex(i);
-				UIAnimationTag tag = (UIAnimationTag)spAnimationData.FindPropertyRelative("m_Tag").intValue;
+				State tag = (State)spAnimationData.FindPropertyRelative("m_State").intValue;
 
-				bool isCurrent = transition.currentTag == tag && Application.isPlaying;
+				bool isCurrent = transition.state == tag && Application.isPlaying;
 				using (new EditorGUILayout.VerticalScope(isCurrent ? "TL SelectionButton PreDropGlow" : EditorStyles.label))
 				{
 					// Header
@@ -224,12 +288,12 @@ namespace Mobcast.Coffee.Transition
 							}
 							else if (oldPreset && !asset)
 							{
-								if(transition.m_TransitionData.m_Preset)
+								if (transition.m_TransitionData.m_Preset)
 								{
 									var datas = transition.m_TransitionData.m_Preset.m_TransitionData.m_AnimationDatas;
 									datas[index] = JsonUtility.FromJson<UIAnimationData>(JsonUtility.ToJson(oldPreset.m_AnimationData));
 									datas[index].m_Preset = null;
-									datas[index].m_Tag = tag;
+									datas[index].m_State = tag;
 									EditorUtility.SetDirty(transition.m_TransitionData.m_Preset);
 								}
 								else
@@ -262,15 +326,6 @@ namespace Mobcast.Coffee.Transition
 							{
 								DrawAnimationData(spAnimationData, transition.helper, isCurrent);
 							}
-
-
-							enabled = GUI.enabled;
-							GUI.enabled = true;
-							if (tag == UIAnimationTag.Show)
-								EditorGUILayout.PropertyField(property.serializedObject.FindProperty("m_AdditionalShowDelay"), new GUIContent("Additional Delay"));
-							else if(tag == UIAnimationTag.Hide)
-								EditorGUILayout.PropertyField(property.serializedObject.FindProperty("m_AdditionalHideDelay"), new GUIContent("Additional Delay"));
-							GUI.enabled = enabled;
 						}
 					}
 					GUI.backgroundColor = backgroundColor;

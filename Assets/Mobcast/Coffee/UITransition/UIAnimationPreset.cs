@@ -12,14 +12,15 @@ namespace Mobcast.Coffee.Transition
 	[System.Serializable]
 	public class UIAnimationData
 	{
-		public UIAnimationTag m_Tag;
+		[FormerlySerializedAs("m_Tag")]
+		public State m_State;
 		public UIAnimationPreset m_Preset;
 		public UITweenData[] m_TweenDatas = new UITweenData[0];
 
 		public UITweenData[] tweenDatas { get { return m_Preset ? m_Preset.m_AnimationData.m_TweenDatas : m_TweenDatas; } }
 	}
 
-	public enum UIAnimationTag
+	public enum State
 	{
 		Show = 1 << 0,
 		Idle = 1 << 1,

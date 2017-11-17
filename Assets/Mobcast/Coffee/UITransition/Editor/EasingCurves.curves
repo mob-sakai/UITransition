@@ -4209,118 +4209,192 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - m_Name: Curve
+  - m_Name: Spring Soft 1
     m_Curve:
       serializedVersion: 2
       m_Curve:
       - time: 0
         value: 0
-        inSlope: 10.388023
-        outSlope: 10.388023
-        tangentMode: 0
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 10
+      - time: 0.25
+        value: 1
+        inSlope: -1.2
+        outSlope: -1.2
+        tangentMode: 10
+      - time: 0.5
+        value: -0.6
+        inSlope: -1.4
+        outSlope: -1.4
+        tangentMode: 10
+      - time: 0.75
+        value: 0.3
+        inSlope: 1.2
+        outSlope: 1.2
+        tangentMode: 10
       - time: 1
         value: 0
-        inSlope: 10.443055
-        outSlope: 10.443055
-        tangentMode: 0
+        inSlope: -1.2
+        outSlope: -1.2
+        tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - m_Name: Spring 1
+  - m_Name: Spring Soft 2
     m_Curve:
       serializedVersion: 2
       m_Curve:
       - time: 0
         value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: 6.6666665
+        outSlope: 6.6666665
+        tangentMode: 10
       - time: 0.15
         value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: -2.6666663
+        outSlope: -2.6666663
+        tangentMode: 10
       - time: 0.3
         value: -0.8
-        inSlope: -0.02026558
-        outSlope: -0.02026558
-        tangentMode: 0
+        inSlope: -1.3333325
+        outSlope: -1.3333325
+        tangentMode: 10
       - time: 0.45000002
         value: 0.6
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: 1.3333337
+        outSlope: 1.3333337
+        tangentMode: 10
       - time: 0.6
         value: -0.4
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: -1.3333328
+        outSlope: -1.3333328
+        tangentMode: 10
       - time: 0.75
         value: 0.2
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: 1.0000007
+        outSlope: 1.0000007
+        tangentMode: 10
       - time: 0.90000004
         value: -0.1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: -0.49999964
+        outSlope: -0.49999964
+        tangentMode: 10
       - time: 1
         value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: 1.0000004
+        outSlope: 1.0000004
+        tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - m_Name: Spring 2
+  - m_Name: Spring Hard 1
     m_Curve:
       serializedVersion: 2
       m_Curve:
       - time: 0
         value: 0
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 10
+      - time: 0.25
+        value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 0
+        tangentMode: 10
+      - time: 0.5
+        value: 0
+        inSlope: -1.2
+        outSlope: -1.2
+        tangentMode: 10
+      - time: 0.75
+        value: 0.4
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      - time: 1
+        value: 0
+        inSlope: -1.6
+        outSlope: -1.6
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - m_Name: Spring Hard 2
+    m_Curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 6.6666665
+        outSlope: 6.6666665
+        tangentMode: 10
       - time: 0.15
         value: 1
         inSlope: 0
         outSlope: 0
-        tangentMode: 0
+        tangentMode: 10
       - time: 0.3
         value: 0
-        inSlope: -0.02026558
-        outSlope: -0.02026558
-        tangentMode: 0
+        inSlope: -1.3333333
+        outSlope: -1.3333333
+        tangentMode: 10
       - time: 0.45000002
         value: 0.6
         inSlope: 0
         outSlope: 0
-        tangentMode: 0
+        tangentMode: 10
       - time: 0.6
         value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: -1.3333333
+        outSlope: -1.3333333
+        tangentMode: 10
       - time: 0.75
         value: 0.2
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: 0.00000029802322
+        outSlope: 0.00000029802322
+        tangentMode: 10
       - time: 0.90000004
         value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
+        inSlope: -0.6666665
+        outSlope: -0.6666665
+        tangentMode: 10
       - time: 1
         value: 0
         inSlope: 0
         outSlope: 0
-        tangentMode: 0
+        tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - m_Name: test1
+  - m_Name: Wave 1
+    m_Curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 10
+      - time: 0.25
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      - time: 0.75
+        value: -1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      - time: 1
+        value: 0
+        inSlope: 4
+        outSlope: 4
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  - m_Name: Wave 2
     m_Curve:
       serializedVersion: 2
       m_Curve:
@@ -4352,7 +4426,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - m_Name: test2
+  - m_Name: Wave 3
     m_Curve:
       serializedVersion: 2
       m_Curve:

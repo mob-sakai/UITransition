@@ -14,7 +14,7 @@ MonoBehaviour:
   m_TransitionData:
     m_Preset: {fileID: 11400000}
     m_AnimationDatas:
-    - m_Tag: 1
+    - m_State: 1
       m_Preset: {fileID: 0}
       m_TweenDatas:
       - relative: 0
@@ -179,7 +179,7 @@ MonoBehaviour:
         loop: 0
         propertyType: 2
         movement: {x: 0, y: 0, z: 0}
-    - m_Tag: 16
+    - m_State: 16
       m_Preset: {fileID: 0}
       m_TweenDatas:
       - relative: 1
@@ -204,7 +204,7 @@ MonoBehaviour:
         loop: 0
         propertyType: 2
         movement: {x: -0.1, y: -0.1, z: -0.1}
-    - m_Tag: 32
+    - m_State: 32
       m_Preset: {fileID: 0}
       m_TweenDatas:
       - relative: 1
@@ -215,29 +215,44 @@ MonoBehaviour:
           m_Curve:
           - time: 0
             value: 0
-            inSlope: 10
-            outSlope: 10
-            tangentMode: 0
-          - time: 0.25
+            inSlope: 6.6666665
+            outSlope: 6.6666665
+            tangentMode: 10
+          - time: 0.15
             value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-          - time: 0.5
-            value: 0
-            inSlope: -10
-            outSlope: -10
-            tangentMode: 0
+            inSlope: -2.6666663
+            outSlope: -2.6666663
+            tangentMode: 10
+          - time: 0.3
+            value: -0.8
+            inSlope: -1.3333325
+            outSlope: -1.3333325
+            tangentMode: 10
+          - time: 0.45000002
+            value: 0.6
+            inSlope: 1.3333337
+            outSlope: 1.3333337
+            tangentMode: 10
+          - time: 0.6
+            value: -0.4
+            inSlope: -1.3333328
+            outSlope: -1.3333328
+            tangentMode: 10
           - time: 0.75
-            value: -1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
+            value: 0.2
+            inSlope: 1.0000007
+            outSlope: 1.0000007
+            tangentMode: 10
+          - time: 0.90000004
+            value: -0.1
+            inSlope: -0.49999964
+            outSlope: -0.49999964
+            tangentMode: 10
           - time: 1
             value: 0
-            inSlope: 10
-            outSlope: 10
-            tangentMode: 0
+            inSlope: 1.0000004
+            outSlope: 1.0000004
+            tangentMode: 10
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 0

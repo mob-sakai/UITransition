@@ -6,16 +6,23 @@ using UnityEngine.UI;
 
 namespace Mobcast.Coffee.Transition
 {
+	/// <summary>再生方向.</summary>
 	public enum PlayDirection
 	{
+		/// <summary>順方向に再生します.</summary>
 		Reverse = -1,
+		/// <summary>逆方向に再生します.</summary>
 		Forward = 1
 	}
 
+	/// <summary>再生モード.</summary>
 	public enum PlayMode
 	{
+		/// <summary>アニメーションを再生します.</summary>
 		Play,
+		/// <summary>アニメーションを始めから再生します.</summary>
 		Replay,
+		/// <summary>アニメーションをスキップします.</summary>
 		Skip,
 	}
 
@@ -121,7 +128,7 @@ namespace Mobcast.Coffee.Transition
 				var d = datas[i];
 				int chIndex = (int)d.propertyType;
 
-//				bool onceOnly = m_AnimationData.m_Tag == UIAnimationTag.Show || m_AnimationData.m_Tag == UIAnimationTag.Hide;
+//				bool onceOnly = m_AnimationData.m_State == UIAnimationTag.Show || m_AnimationData.m_State == UIAnimationTag.Hide;
 				var loop = onceOnly ? UITweenData.LoopMode.Once : d.loop;
 
 				// Delay.
@@ -266,7 +273,7 @@ namespace Mobcast.Coffee.Transition
 					ResetTime(dir, isForward ? 0 : 1, delay);
 					break;
 				case PlayMode.Skip:
-					ResetTime(dir, isForward ? 1 : 0, delay);
+					ResetTime(dir, isForward ? 1 : 0, 0);
 					break;
 			}
 

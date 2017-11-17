@@ -106,7 +106,6 @@ namespace Mobcast.Coffee.Transition
 			var oldPreset = presetProperty.objectReferenceValue as UIAnimationPreset;
 			DrawAssetField<UIAnimationPreset>(position, null, presetProperty, (asset, created) =>
 				{
-					Debug.Log(asset + ", " + created + ", " + oldPreset);
 					if (created)
 					{
 						var so = new SerializedObject(asset);
@@ -235,7 +234,7 @@ namespace Mobcast.Coffee.Transition
 				GUILayout.Space(-2);
 			}
 
-			var tag = (UIAnimationTag)property.FindPropertyRelative("m_Tag").intValue;
+			var tag = (State)property.FindPropertyRelative("m_State").intValue;
 			// Animation datas.
 			for (int i = 0; i < spDatas.arraySize; i++)
 			{
@@ -248,7 +247,7 @@ namespace Mobcast.Coffee.Transition
 			spDatas.serializedObject.ApplyModifiedProperties();
 		}
 
-		public static void DrawTweenData(SerializedProperty property, UIAnimationHelper helper, float rate, UIAnimationTag tag, bool showProgress = true)
+		public static void DrawTweenData(SerializedProperty property, UIAnimationHelper helper, float rate, State tag, bool showProgress = true)
 		{
 			var labelwidth = EditorGUIUtility.labelWidth;
 
@@ -267,7 +266,7 @@ namespace Mobcast.Coffee.Transition
 			}
 
 			// LoopMode
-			bool onceOnly = tag == UIAnimationTag.Show || tag == UIAnimationTag.Hide || tag == UIAnimationTag.Click;
+			bool onceOnly = tag == State.Show || tag == State.Hide || tag == State.Click;
 			var spLoop = property.FindPropertyRelative("loop");
 			using (new EditorGUI.DisabledGroupScope(onceOnly))
 			{
