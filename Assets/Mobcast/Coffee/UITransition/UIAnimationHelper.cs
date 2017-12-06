@@ -202,7 +202,7 @@ namespace Mobcast.Coffee.Transition
 			}
 		}
 
-		void Apply(UITweenData[] datas, bool evaluateReverse)
+		public void Apply(UITweenData[] datas, bool evaluateReverse)
 		{
 			for (int i = 0; i < datas.Length; i++)
 			{

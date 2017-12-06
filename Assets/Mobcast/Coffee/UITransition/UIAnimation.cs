@@ -66,5 +66,11 @@ namespace Mobcast.Coffee.Transition
 		{
 			isPlaying = true;
 		}
+
+		public void Sample(float rate)
+		{
+			helper.ResetTime(PlayDirection.Forward, rate, 0);
+			helper.Apply(m_AnimationData.tweenDatas, false);
+		}
 	}
 }
